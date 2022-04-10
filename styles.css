@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.score {
+  margin: 20px;
+}
+
+.info {
+  margin: 20px;
+}
+
+.playerScoreContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.playerScore {
+  margin: 10px;
+}
+
+.computerScoreContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.computerScore {
+  margin: 10px;
+}
+
+.scoreContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+button {
+  margin: 20px;
+}

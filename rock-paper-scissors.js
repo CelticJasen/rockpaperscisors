@@ -1,3 +1,34 @@
+const container = document.querySelector(".container");
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+const playerScoreDisplay = document.querySelector(".playerScore");
+const computerScoreDisplay = document.querySelector(".computerScore");
+const infoDisplay = document.querySelector(".info");
+const grandWinnerDisplay = document.querySelector(".grandWinner");
+const playAgainButton = document.querySelector("#playAgainButton");
+
+let playerScore = 0;
+let computerScore = 0;
+
+playAgainButton.style.visibility = "hidden";
+
+playAgainButton.addEventListener("click", function(){ reset(); });
+rockButton.addEventListener("click", function(){ playRPS('rock', computerPlay()); });
+paperButton.addEventListener("click", function(){ playRPS('paper', computerPlay()); });
+scissorsButton.addEventListener("click", function(){ playRPS('scissors', computerPlay());} );
+
+//reset the game to play again
+function reset(){
+  playerScore = 0;
+  computerScore = 0;
+  playerScoreDisplay.innerText = `${playerScore}`;
+  computerScoreDisplay.innerText = `${computerScore}`;
+  grandWinnerDisplay.innerText = "First to 5 wins!";
+  infoDisplay.innerText = "Choose Rock, Paper, or Scissors...";
+  playAgainButton.style.visibility = "hidden";
+}
+
 //Return a string 'rock' or 'paper' or 'scissors' at random
 function computerPlay(){
     let randomNumber = Math.random();
@@ -13,65 +44,27 @@ function computerPlay(){
 
 //Calculate the winner of the round and return a string stating who won
 function playRPS(playerSelection, computerSelection){
-
-    if(playerSelection === null){
-        return;
-    }
-
-    if(playerSelection.toLowerCase() != 'rock'){
-        if(playerSelection.toLowerCase() != 'paper'){
-            if(playerSelection.toLowerCase() != 'scissors'){
-                return `"${playerSelection}" is not a proper choice! You lose this round!`;
-            }
-        }
+    if(playerScore == 5 || computerScore == 5){
+      return;
     }
 
     if((playerSelection.toLowerCase() == 'rock' && computerSelection == 'Paper') || (playerSelection.toLowerCase() == 'paper' && computerSelection == 'Scissors') || (playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Rock')){
-        return `You lose! ${computerSelection} beats ${playerSelection}`;
+        infoDisplay.innerText = `You lose! ${computerSelection} beats ${playerSelection}`;
+        computerScore++;
+        computerScoreDisplay.innerText = `${computerScore}`;
     }else if(playerSelection.toLowerCase() == computerSelection.toLowerCase()){
-        return 'It\'s a draw!';
+        infoDisplay.innerText = 'It\'s a draw!';
     }else{
-        return `You win! ${playerSelection} beats ${computerSelection}`;
+        infoDisplay.innerText = `You win! ${playerSelection} beats ${computerSelection}`;
+        playerScore++;
+        playerScoreDisplay.innerText = `${playerScore}`;
+    }
+
+    if(playerScore == 5){
+      grandWinnerDisplay.innerText = "You're the winner!";
+      playAgainButton.style.visibility = "visible";
+    }else if(computerScore == 5){
+      grandWinnerDisplay.innerText = "Computer is the winner!";
+      playAgainButton.style.visibility = "visible";
     }
 }
-
-//Plays rock paper scissors for 5 rounds, keeps score and declares the winner at the end then asks if the player wants to play again.
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for(let i = 0; i < 5; i++){
-        let outcome = playRPS(prompt('Type "Rock", "Paper", or "Scissors"'), computerPlay());
-
-        if(outcome === undefined){
-            console.log("Ok, we don't have to play if you don't want to...")
-            return;
-        }
-
-        if(outcome.includes('win')){
-            playerScore++;
-        }else if(outcome.includes('lose')){
-            computerScore++;
-        }
-
-        console.log(outcome);
-        console.log(`Player: ${playerScore}`);
-        console.log(`Computer: ${computerScore}`);
-    }
-
-    if(playerScore > computerScore){
-        console.log('You won the whole game!');
-    }else if(playerScore < computerScore){
-        console.log('You lost the game!');
-    }else{
-        console.log('Tie! Everyone wins!');
-    }
-
-    let again = prompt('Want to play again?');
-
-    if(again !== null && again.toLowerCase() == 'yes'){
-        game();
-    }
-}
-
-game();
